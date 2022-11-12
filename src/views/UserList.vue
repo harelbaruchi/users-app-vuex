@@ -8,6 +8,7 @@
 <script>
 // @ is an alias to /src
 import EventCard from '@/components/EventCard.vue'
+import EventsService from '@/services/EventsService.js'
 
 export default {
   name: 'UserList',
@@ -16,31 +17,17 @@ export default {
   },
   data() {
     return {
-      events: [
-        {
-          id: 235446,
-          category: 'animal welfare',
-          title: 'cat adoption day',
-          description: 'find your new feline friend at this event.',
-          location: 'meow town',
-          date: 'january 28 2022',
-          time: '11:00',
-          petsAllowed: true,
-          organizer: 'kats Laydee',
-        },
-        {
-          id: 123456,
-          category: 'animal welfare',
-          title: 'cat adoption day',
-          description: 'find your new feline friend at this event.',
-          location: 'meow town',
-          date: 'january 28 2022',
-          time: '11:00',
-          petsAllowed: true,
-          organizer: 'kats Laydee',
-        },
-      ],
+      events: null,
     }
+  },
+  created() {
+    EventsService.getEvents()
+      .then((response) => {
+        this.events = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   },
 }
 </script>
@@ -49,5 +36,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 }
 </style>
